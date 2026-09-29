@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Timetable with Details</title>
+    
+    <!-- PWA Essential Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#111111">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -176,7 +182,7 @@
         </div>
     </div>
 
-    <!-- Course Detail Modal (Unchanged) -->
+    <!-- Course Detail Modal -->
     <div id="courseModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden flex justify-center items-center z-50 p-4 transition-opacity">
         <div class="bg-[#1e1e1e] border border-[#333] rounded-xl p-6 w-full max-w-md shadow-2xl relative">
             <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
@@ -230,6 +236,18 @@
                 closeModal();
             }
         });
+
+        // Register the Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered successfully with scope: ', registration.scope);
+                    }, err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
