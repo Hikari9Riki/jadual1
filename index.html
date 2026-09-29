@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visual Timetable with Details</title>
     
-    <!-- PWA Essential Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#111111">
     <link rel="apple-touch-icon" href="icon-192.png">
@@ -17,12 +16,11 @@
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
-        /* UPDATED: 1 hour = 60px, so 1 minute = 1px */
         .hour-grid {
             background-image: linear-gradient(to bottom, transparent 59px, #333 60px);
             background-size: 100% 60px;
         }
-        /* Custom scrollbar for better mobile appearance */
+        /* Custom main scrollbar */
         ::-webkit-scrollbar {
             height: 6px;
         }
@@ -34,8 +32,13 @@
             background: #444; 
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #666; 
+        /* Hide scrollbars inside the tiny course blocks but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
         }
     </style>
 </head>
@@ -44,7 +47,6 @@
     <!-- Scrollable wrapper for mobile -->
     <div class="w-full max-w-4xl mx-auto overflow-x-auto pb-4">
         
-        <!-- UPDATED: Reduced width to 550px for a more compact mobile view -->
         <div class="min-w-[550px] relative bg-[#111]">
             
             <!-- Days Header -->
@@ -57,122 +59,138 @@
                 <div class="py-1.5 text-gray-500 text-right pr-2 text-[10px] font-normal">Time</div>
             </div>
 
-            <!-- Timetable Grid (08:00 to 18:00) -->
-            <!-- UPDATED: Grid height reduced from 1200px to 620px -->
+            <!-- Timetable Grid -->
             <div class="relative h-[620px] grid grid-cols-[1fr_1fr_1fr_1fr_1fr_40px] gap-1.5 hour-grid border-t border-[#333]">
                 
                 <!-- Monday Column -->
                 <div class="relative h-full">
-                    <!-- BIIT 3304 8:30-9:50 -->
-                    <!-- UPDATED: top 30px (8:30), height 80px (80 mins) -->
-                    <div onclick="showModal('BIIT 3304', 'ICT and Islam', '08:30 - 09:50 AM', 'Mon & Wed', 'ICT TL-E5-03 LEVEL 5E', '1', '3')" class="absolute w-full rounded-lg bg-[#7b4617] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 30px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">08:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none mt-1">BIIT<br>3304</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">ICT and Islam</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">09:50</span>
+                    <!-- BIIT 3304 -->
+                    <div onclick="showModal('BIIT 3304', 'ICT and Islam', '08:30 - 09:50 AM', 'Mon & Wed', 'ICT TL-E5-03 LEVEL 5E', '1', '3')" class="absolute w-full rounded-lg bg-[#7b4617] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 30px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">08:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">09:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none mt-1">BIIT<br>3304</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">ICT and Islam</span>
+                        </div>
                     </div>
-                    <!-- BICS 3302 14:00-15:20 -->
-                    <!-- UPDATED: top 360px (14:00), height 80px -->
-                    <div onclick="showModal('BICS 3302', 'Computation and Complexity', '2:00 - 3:20 PM', 'Mon & Wed', 'ICT PBL LAB 2 LEVEL 3D', '2', '3')" class="absolute w-full rounded-lg bg-[#7a325f] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 360px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">14:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none mt-1">BICS<br>3302</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Computation and Complexity</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">15:20</span>
+                    <!-- BICS 3302 -->
+                    <div onclick="showModal('BICS 3302', 'Computation and Complexity', '2:00 - 3:20 PM', 'Mon & Wed', 'ICT PBL LAB 2 LEVEL 3D', '2', '3')" class="absolute w-full rounded-lg bg-[#7a325f] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 360px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">14:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">15:20</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none mt-1">BICS<br>3302</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Computation and Complexity</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Tuesday Column -->
                 <div class="relative h-full">
-                    <!-- BICS 4340 8:30-9:50 -->
-                    <!-- UPDATED: top 30px, height 80px -->
-                    <div onclick="showModal('BICS 4340', 'Machine Learning', '08:30 - 09:50 AM', 'Tue & Thu', 'ICT TEACH LAB 4 LEVEL 3C', '2', '3')" class="absolute w-full rounded-lg bg-[#581c87] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 30px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">08:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#e8c0fb] mt-1">BICS<br>4340</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Machine Learning</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">09:50</span>
+                    <!-- BICS 4340 -->
+                    <div onclick="showModal('BICS 4340', 'Machine Learning', '08:30 - 09:50 AM', 'Tue & Thu', 'ICT TEACH LAB 4 LEVEL 3C', '2', '3')" class="absolute w-full rounded-lg bg-[#581c87] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 30px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">08:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">09:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#e8c0fb] mt-1">BICS<br>4340</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Machine Learning</span>
+                        </div>
                     </div>
-                    <!-- BICS 3301 10:00-11:20 -->
-                    <!-- UPDATED: top 120px, height 80px -->
-                    <div onclick="showModal('BICS 3301', 'Cross-Platform Software Development', '10:00 - 11:20 AM', 'Tue & Thu', 'ICT LR 14A LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#245365] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 120px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">10:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#a5e1f7] mt-1">BICS<br>3301</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Cross-Platform Software Development</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">11:20</span>
+                    <!-- BICS 3301 -->
+                    <div onclick="showModal('BICS 3301', 'Cross-Platform Software Development', '10:00 - 11:20 AM', 'Tue & Thu', 'ICT LR 14A LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#245365] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 120px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">10:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">11:20</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#a5e1f7] mt-1">BICS<br>3301</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Cross-Platform Software Development</span>
+                        </div>
                     </div>
-                    <!-- BICS 3303 11:30-12:50 -->
-                    <!-- UPDATED: top 210px, height 80px -->
-                    <div onclick="showModal('BICS 3303', 'Parallel & Distributed Systems', '11:30 - 12:50 PM', 'Tue & Thu', 'ICT LR 14 LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#2f4f1e] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 210px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">11:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#aefb81] mt-1">BICS<br>3303</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Parallel & Distributed Systems</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">12:50</span>
+                    <!-- BICS 3303 -->
+                    <div onclick="showModal('BICS 3303', 'Parallel & Distributed Systems', '11:30 - 12:50 PM', 'Tue & Thu', 'ICT LR 14 LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#2f4f1e] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 210px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">11:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">12:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#aefb81] mt-1">BICS<br>3303</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Parallel & Distributed Systems</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Wednesday Column -->
                 <div class="relative h-full">
-                    <!-- BIIT 3304 8:30-9:50 -->
-                    <div onclick="showModal('BIIT 3304', 'ICT and Islam', '08:30 - 09:50 AM', 'Mon & Wed', 'ICT TL-E5-03 LEVEL 5E', '1', '3')" class="absolute w-full rounded-lg bg-[#7b4617] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 30px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">08:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none mt-1">BIIT<br>3304</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">ICT and Islam</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">09:50</span>
+                    <!-- BIIT 3304 -->
+                    <div onclick="showModal('BIIT 3304', 'ICT and Islam', '08:30 - 09:50 AM', 'Mon & Wed', 'ICT TL-E5-03 LEVEL 5E', '1', '3')" class="absolute w-full rounded-lg bg-[#7b4617] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 30px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">08:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">09:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none mt-1">BIIT<br>3304</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">ICT and Islam</span>
+                        </div>
                     </div>
-                    <!-- BICS 3302 14:00-15:20 -->
-                    <div onclick="showModal('BICS 3302', 'Computation and Complexity', '2:00 - 3:20 PM', 'Mon & Wed', 'ICT PBL LAB 2 LEVEL 3D', '2', '3')" class="absolute w-full rounded-lg bg-[#7a325f] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 360px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">14:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#fbb3db] mt-1">BICS<br>3302</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Computation and Complexity</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">15:20</span>
+                    <!-- BICS 3302 -->
+                    <div onclick="showModal('BICS 3302', 'Computation and Complexity', '2:00 - 3:20 PM', 'Mon & Wed', 'ICT PBL LAB 2 LEVEL 3D', '2', '3')" class="absolute w-full rounded-lg bg-[#7a325f] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 360px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">14:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">15:20</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#fbb3db] mt-1">BICS<br>3302</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Computation and Complexity</span>
+                        </div>
                     </div>
-                    <!-- SCSH 2163 17:00-18:00 -->
-                    <!-- UPDATED: top 540px, height 60px -->
-                    <div onclick="showModal('SCSH 2163', 'USRAH IN ACTION 1', '5:00 - 6:00 PM', 'Wed', 'Not specified', '62', '1')" class="absolute w-full rounded-lg bg-[#1e3a8a] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 540px; height: 60px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">17:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#93c5fd] mt-1">SCSH<br>2163</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">USRAH IN ACTION 1</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">18:00</span>
+                    <!-- SCSH 2163 -->
+                    <div onclick="showModal('SCSH 2163', 'USRAH IN ACTION 1', '5:00 - 6:00 PM', 'Wed', 'Not specified', '62', '1')" class="absolute w-full rounded-lg bg-[#1e3a8a] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 540px; height: 60px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">17:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">18:00</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#93c5fd] mt-1">SCSH<br>2163</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">USRAH IN ACTION 1</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Thursday Column -->
                 <div class="relative h-full">
-                    <!-- BICS 4340 8:30-9:50 -->
-                    <div onclick="showModal('BICS 4340', 'Machine Learning', '08:30 - 09:50 AM', 'Tue & Thu', 'ICT TEACH LAB 4 LEVEL 3C', '2', '3')" class="absolute w-full rounded-lg bg-[#581c87] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 30px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">08:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#e8c0fb] mt-1">BICS<br>4340</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Machine Learning</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">09:50</span>
+                    <!-- BICS 4340 -->
+                    <div onclick="showModal('BICS 4340', 'Machine Learning', '08:30 - 09:50 AM', 'Tue & Thu', 'ICT TEACH LAB 4 LEVEL 3C', '2', '3')" class="absolute w-full rounded-lg bg-[#581c87] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 30px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">08:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">09:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#e8c0fb] mt-1">BICS<br>4340</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Machine Learning</span>
+                        </div>
                     </div>
-                    <!-- BICS 3301 10:00-11:20 -->
-                    <div onclick="showModal('BICS 3301', 'Cross-Platform Software Development', '10:00 - 11:20 AM', 'Tue & Thu', 'ICT LR 14A LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#245365] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 120px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">10:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#a5e1f7] mt-1">BICS<br>3301</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Cross-Platform Software Development</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">11:20</span>
+                    <!-- BICS 3301 -->
+                    <div onclick="showModal('BICS 3301', 'Cross-Platform Software Development', '10:00 - 11:20 AM', 'Tue & Thu', 'ICT LR 14A LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#245365] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 120px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">10:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">11:20</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#a5e1f7] mt-1">BICS<br>3301</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Cross-Platform Software Development</span>
+                        </div>
                     </div>
-                    <!-- BICS 3303 11:30-12:50 -->
-                    <div onclick="showModal('BICS 3303', 'Parallel & Distributed Systems', '11:30 - 12:50 PM', 'Tue & Thu', 'ICT LR 14 LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#2f4f1e] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 210px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">11:30</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#aefb81] mt-1">BICS<br>3303</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Parallel & Distributed Systems</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">12:50</span>
+                    <!-- BICS 3303 -->
+                    <div onclick="showModal('BICS 3303', 'Parallel & Distributed Systems', '11:30 - 12:50 PM', 'Tue & Thu', 'ICT LR 14 LEVEL 2D', '2', '3')" class="absolute w-full rounded-lg bg-[#2f4f1e] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 210px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">11:30</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">12:50</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#aefb81] mt-1">BICS<br>3303</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Parallel & Distributed Systems</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Friday Column -->
                 <div class="relative h-full">
-                    <!-- BICS 4321 10:00-11:20 -->
-                    <div onclick="showModal('BICS 4321', 'Final Year Project I', '10:00 - 11:20 AM', 'Fri', 'ICT LT 1 LEVEL 4D', '1', '3')" class="absolute w-full rounded-lg bg-[#6b2b23] p-1 flex flex-col justify-center items-center text-center shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10 overflow-hidden" style="top: 120px; height: 80px;">
-                        <span class="absolute top-1 left-1 text-[8px] text-white/70">10:00</span>
-                        <span class="font-bold text-xs tracking-tight leading-none text-[#fba29b] mt-1">BICS<br>4321</span>
-                        <span class="text-[9px] text-white/90 leading-tight mt-1 px-0.5 w-full truncate">Final Year Project I</span>
-                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70">11:20</span>
+                    <!-- BICS 4321 -->
+                    <div onclick="showModal('BICS 4321', 'Final Year Project I', '10:00 - 11:20 AM', 'Fri', 'ICT LT 1 LEVEL 4D', '1', '3')" class="absolute w-full rounded-lg bg-[#6b2b23] shadow-md cursor-pointer hover:ring-2 hover:ring-white transition-all z-10" style="top: 120px; height: 80px;">
+                        <span class="absolute top-1 left-1 text-[8px] text-white/70 pointer-events-none">10:00</span>
+                        <span class="absolute bottom-1 right-1 text-[8px] text-white/70 pointer-events-none">11:20</span>
+                        <div class="h-full w-full overflow-y-auto no-scrollbar flex flex-col justify-center items-center text-center p-1 pt-3 pb-3">
+                            <span class="font-bold text-xs tracking-tight leading-none text-[#fba29b] mt-1">BICS<br>4321</span>
+                            <span class="text-[9px] text-white/90 leading-tight mt-1 w-full">Final Year Project I</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Time Axis Column -->
-                <!-- UPDATED: Heights reduced to 60px -->
                 <div class="relative h-full text-right pr-1 text-[10px] text-gray-500 font-light flex flex-col border-l border-[#333]">
                     <div style="height: 60px;" class="-mt-1.5">08:00</div>
                     <div style="height: 60px;" class="-mt-1.5">09:00</div>
@@ -239,14 +257,12 @@
             document.getElementById('courseModal').classList.add('hidden');
         }
 
-        // Close modal when clicking outside of it
         document.getElementById('courseModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
-        // Register the Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
@@ -254,9 +270,3 @@
                         console.log('ServiceWorker registered successfully with scope: ', registration.scope);
                     }, err => {
                         console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
-        }
-    </script>
-</body>
-</html>
